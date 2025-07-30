@@ -5,6 +5,7 @@ on:
       - main
     paths-ignore:
       - ".github/workflows/**"
+  workflow_dispatch: # Allow manual triggering of the workflow
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,13 +13,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install Dependencies
+      - name: Install Dependencies # npm ci will install dependencies from package-lock.json
         run: npm ci
 
-      - name: Create Artifact files
+      - name: Create Artifact files # Assuming the build command generates files in the 'dist' directory
         run: npm run build
 
-      - name: Upload Artifact
+      - name: Upload Artifact # Upload the generated files as an artifact
         uses: actions/upload-artifact@v4
         with:
           name: deploy-artifact
